@@ -3,7 +3,9 @@ package com.example.hiltsampleapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.hiltsampleapp.data.AppDataBase
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,6 +16,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var doSomeThing: DoSomeThing
 
+    @Inject
+    lateinit var dataBase: AppDataBase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         Log.v(TAG, doSomeThing.doSomeOtherthing())
     }
 }
-
+//scope of injected object
+@Singleton
 class DoSomeThing @Inject constructor(private val doSomeOtherThing:DoSomeOtherThing) {
 
     fun doSomeThing():String{
@@ -33,6 +39,8 @@ class DoSomeThing @Inject constructor(private val doSomeOtherThing:DoSomeOtherTh
     }
 }
 
+//scope of injected object
+@ActivityScoped
 class DoSomeOtherThing @Inject constructor(){
     fun  doSomeOtherThing():String{
         return "Look I did some Other thing"
